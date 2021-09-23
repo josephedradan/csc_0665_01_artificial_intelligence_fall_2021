@@ -51,3 +51,5 @@ foodGrid.asList() returns an iterable of the remaining positions of food or goal
 For Suboptimal Search (Question 8), it's basically question 7, but you have access to "problem" and you want a path
 which is what the algorithms in search.py do, so just return the result of the a star algorithm and you get your
 answer.
+
+Hours spent doing this project: 40+
