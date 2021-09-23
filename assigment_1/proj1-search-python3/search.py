@@ -273,7 +273,7 @@ class Container:
                  "cost_accumulated_plus_heuristic_result", "cost_heuristic"]
 
     def __init__(self,
-                 successor: Tuple[Tuple, Union[str, None], int],
+                 successor: Tuple[Union[Tuple, Hashable], Union[str, None], float],
                  container_parent: Union[Any, None] = None):
         """
         A Container object contains the successor given and its parent Container.
@@ -284,11 +284,11 @@ class Container:
         :param successor: A tuple containing the position tuple, direction, and step cost
         :param container_parent: Container object that is the parent of the given successor
         """
-        self.successor: Tuple[Tuple, str, float] = successor
+        self.successor: Tuple[Union[Tuple, Hashable], Union[str, None], float] = successor
         self.container_parent: Union[Container, None] = container_parent
 
-        self.position: Tuple = successor[0]
-        self.direction: str = successor[1]
+        self.position: Union[Tuple, Hashable] = successor[0]
+        self.direction: Union[str, None] = successor[1]
         self.cost: float = successor[2]
 
         # Accumulated cost of this container is based on the previous container's accumulated cost
@@ -396,7 +396,7 @@ def generic_search_algorithm_base(problem: SearchProblem,
     # ----- Initialization -----
 
     # Get first position tuple
-    tuple_position_first: Tuple[int, int] = problem.getStartState()
+    tuple_position_first: Hashable = problem.getStartState()
 
     # Create the first container object
     container_first = Container((tuple_position_first, None, 1))

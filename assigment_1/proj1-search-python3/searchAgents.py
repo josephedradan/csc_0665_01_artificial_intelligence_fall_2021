@@ -1242,6 +1242,8 @@ def foodHeuristic(state: Tuple, problem: FoodSearchProblem):
     #     In _get_heuristic_cost_ucs_crude the 4th parameter needs to be None because that parameter is used reduce
     #     computation time for finding the shortest distance.
     #
+    #     Code can be one lined, but it would look ugly.
+    #
     # IMPORTANT NOTES:
     #     Using the max distance instead of min distance is essentially equivalent to returning the longest distance
     #     for the priority queue algorithm to then select the best of the (Big Heuristic Cost + Node Cost distance).
@@ -1528,9 +1530,7 @@ class AnyFoodSearchProblem(PositionSearchProblem):
         
         """
 
-        if state in list_position_food_remaining:
-            return True
-        return False
+        return state in list_position_food_remaining
 
 
 @lru_cache(maxsize=None)  # Cache repeated inputs
