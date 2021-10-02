@@ -85,5 +85,18 @@ The Stuff run:
 
 
 
+Submission
 
-
+    What to submit:
+        The files that are required in the assignment's description (search.py and searchAgents.py). Please use comments appropriately across your code.
+        
+        A short README.txt file that specifies:
+        
+            Your name and SFSU ID (and the name and SFSU ID of your partner).
+            A brief description (i.e. a short paragraph) that includes the main ideas of your implementation.
+            How many hours did you spend on this assignment?
+            
+        Place your files in a single folder inside the archive.
+        
+        Submit your assignment on iLearn as a single archive file (.zip, tar.gz, etc), with the name csc665-search-lastname-sfsuid
+        
