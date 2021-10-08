@@ -89,7 +89,7 @@ def evaluation_function_food_and_ghost(successorGameState: GameState,
     #     # print(score_capsule_closest)
     #
     #     # Closer a scared ghost is, score_capsule_closest^POWER (because scared ghost are good money)
-    #     score_capsule_closest = score_capsule_closest ** 2
+    #     score_capsule_closest = score_capsule_closest * 8
     #
     #     # Modify score_new
     #     score_new += score_capsule_closest
