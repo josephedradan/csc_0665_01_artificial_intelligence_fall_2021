@@ -89,7 +89,7 @@ def evaluation_function_food_and_ghost(successorGameState: GameState,
     #     # print(score_capsule_closest)
     #
     #     # Closer a scared ghost is, score_capsule_closest^POWER (because scared ghost are good money)
-    #     score_capsule_closest = score_capsule_closest   # 2 because of trial and error
+    #     score_capsule_closest = score_capsule_closest ** 2
     #
     #     # Modify score_new
     #     score_new += score_capsule_closest
@@ -976,7 +976,7 @@ def dfs_recursive_minimax_v3(game_state: GameState,
 
 ##############################################################################################################
 
-# @callgraph(use_list_index_args=[1, 5], display_callable_name=False, )
+# @callgraph(use_list_index_args=[1, 5, 7], display_callable_name=False, )
 def _dfs_recursive_minimax_v4_handler(game_state: GameState,
                                       depth: int,
                                       alpha: Union[None, float],
@@ -984,6 +984,7 @@ def _dfs_recursive_minimax_v4_handler(game_state: GameState,
                                       function_evaluation: callable,
                                       index_agent: int = 0,
                                       alpha_beta_pruning: bool = False,
+                                      # _callgraph_special: Any = None
                                       ) -> float:
     """
     This is the actual DFS Recursive Minimax algorithm's main body.
@@ -1029,6 +1030,7 @@ def _dfs_recursive_minimax_v4_handler(game_state: GameState,
                                                                  function_evaluation,
                                                                  index_agent_new,
                                                                  alpha_beta_pruning,
+                                                                 # str((depth, index_agent, action))
                                                                  )
 
             # _LIST_SCORE_DEBUG.append(score_calculated)
@@ -1092,6 +1094,7 @@ def _dfs_recursive_minimax_v4_handler(game_state: GameState,
                                                                  function_evaluation,
                                                                  index_agent_new,
                                                                  alpha_beta_pruning,
+                                                                 # str((depth, index_agent, action))
                                                                  )
 
             # _LIST_SCORE_DEBUG.append(score_calculated)
@@ -1131,6 +1134,7 @@ def _dfs_recursive_minimax_v4_handler(game_state: GameState,
         return score_min
 
 
+# @callgraph(use_list_index_args=[1, 3], display_callable_name=False,)
 def dfs_recursive_minimax_v4(game_state: GameState,
                              depth: int,
                              function_evaluation: callable,
@@ -1176,7 +1180,8 @@ def dfs_recursive_minimax_v4(game_state: GameState,
                                                              beta,
                                                              function_evaluation,
                                                              index_agent_new,
-                                                             alpha_beta_pruning
+                                                             alpha_beta_pruning,
+                                                             # str((depth, index_agent, action))
                                                              )
 
         if alpha_beta_pruning:
@@ -1505,6 +1510,8 @@ class MinimaxAgent(MultiAgentSearchAgent):
                 to follow your instructor's guidelines to receive credit on your project.
         """
         action = dfs_recursive_minimax_v4(gameState, self.depth, self.evaluationFunction)
+
+        # create_callgraph(type_output="png")
 
         return action
 
