@@ -180,7 +180,7 @@ You will now implement PrioritizedSweepingValueIterationAgent, which has been pa
 
 Prioritized sweeping attempts to focus updates of state values in ways that are likely to change the policy.
 
-For this project, you will implement a simplified version of the standard prioritized sweeping algorithm, which is described in this paper. We've adapted this algorithm for our setting. First, we define the predecessors of a state s as all states that have a nonzero probability of reaching s by taking some action a. Also, theta, which is passed in as a parameter, will represent our tolerance for error when deciding whether to update the value of a state. Here's the algorithm you should follow in your implementation.
+For this project, you will implement a simplified version of the standard prioritized sweeping algorithm, which is described [in this paper](http://papers.nips.cc/paper/651-memory-based-reinforcement-learning-efficient-computation-with-prioritized-sweeping.pdf). We've adapted this algorithm for our setting. First, we define the predecessors of a state s as all states that have a nonzero probability of reaching s by taking some action a. Also, theta, which is passed in as a parameter, will represent our tolerance for error when deciding whether to update the value of a state. Here's the algorithm you should follow in your implementation.
 
 1. Compute predecessors of all states.
 2. Initialize an empty priority queue.
