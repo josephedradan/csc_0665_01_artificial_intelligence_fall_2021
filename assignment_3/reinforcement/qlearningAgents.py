@@ -203,12 +203,22 @@ class QLearningAgent(ReinforcementAgent):
         """
         boolean: bool = util.flipCoin(self.epsilon)
 
+        action_from_policy = self.getPolicy(state)
+
+        # set_legalAction = set(legalActions)
+        #
+        # if action_from_policy in set_legalAction:
+        #     set_legalAction.remove(action_from_policy)
+        #
+        # print(legalActions)
+
         if boolean:
             # Exploration
+            # return random.choice(list(set_legalAction))  # Will Fail q7, but it's a better solution kind of
             return random.choice(legalActions)
 
         # Exploitation
-        return self.getPolicy(state)
+        return action_from_policy
 
     def update(self, state, action, nextState, reward) -> None:
         """

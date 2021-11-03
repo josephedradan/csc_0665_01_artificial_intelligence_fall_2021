@@ -253,7 +253,7 @@ class ValueIterationAgent(ValueEstimationAgent):
             
             Foundations of Q-Learning
                 Notes:
-                    Q-value indicate teh quality of a particular action a in a given state s Q(s, a)
+                    Q-value indicate the quality of a particular action a in a given state s Q(s, a)
                     Q-value are our current estimate of the sum of future rewards
                         Q-values estimate how much additional reward we can accumulate through
                         all remaining steps in the current episode if the AI agent is in state s and takes action a
@@ -661,7 +661,7 @@ class PrioritizedSweepingValueIterationAgent(AsynchronousValueIterationAgent):
 
             # pprint(dict_k_state_v_set_predecessor)
 
-            v_star_state_popped = max(list_q_star)
+            v_star_max = max(list_q_star)
 
             ##########
 
@@ -671,7 +671,7 @@ class PrioritizedSweepingValueIterationAgent(AsynchronousValueIterationAgent):
             diff. Do NOT update self.values[s] in this step.
             """
 
-            diff = abs(state_current_value - v_star_state_popped)
+            diff = abs(state_current_value - v_star_max)
 
             """
             2. Push s into the priority queue with priority -diff (note that this is negative). We use a negative
@@ -694,11 +694,11 @@ class PrioritizedSweepingValueIterationAgent(AsynchronousValueIterationAgent):
 
             # 3. Update s's value (if it is not a terminal state) in self.values.
             if not self.mdp.isTerminal(state_popped):
-                v_star_state_popped = max(
+                v_star_max = max(
                     [self.computeQValueFromValues(state_popped,
                                                   action) for action in list_actions_possible_state_popped]
                 )
-                self.values[state_popped] = v_star_state_popped
+                self.values[state_popped] = v_star_max
 
             # 4. For each predecessor p of s, do:
             for state_predecessor in dict_k_state_v_set_predecessor.get(state_popped):
