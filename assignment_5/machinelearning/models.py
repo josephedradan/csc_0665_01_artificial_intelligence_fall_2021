@@ -1,4 +1,6 @@
+import backend
 import nn
+
 
 class PerceptronModel(object):
     def __init__(self, dimensions):
@@ -10,7 +12,7 @@ class PerceptronModel(object):
         For example, dimensions=2 would mean that the perceptron must classify
         2D points.
         """
-        self.w = nn.Parameter(1, dimensions)
+        self.w: nn.Parameter = nn.Parameter(1, dimensions)
 
     def get_weights(self):
         """
@@ -18,7 +20,7 @@ class PerceptronModel(object):
         """
         return self.w
 
-    def run(self, x):
+    def run(self, x: nn.Constant):
         """
         Calculates the score assigned by the perceptron to a data point x.
 
@@ -28,19 +30,153 @@ class PerceptronModel(object):
         """
         "*** YOUR CODE HERE ***"
 
-    def get_prediction(self, x):
+        # print("run")
+
+        """
+        Implement the run(self, x) method. This should compute the dot product of the stored weight vector and the 
+        given input, returning an nn.DotProduct object.
+        """
+        dot_product = nn.DotProduct(self.w, x)
+
+        # print(dot_product)
+
+        return dot_product
+
+    def get_prediction(self, x: nn.Constant):
         """
         Calculates the predicted class for a single data point `x`.
 
         Returns: 1 or -1
         """
         "*** YOUR CODE HERE ***"
+        # print("get_prediction")
 
-    def train(self, dataset):
+        """
+        Implement get_prediction(self, x), which should return 1 if the dot product is non-negative or −1 otherwise. 
+        You should use nn.as_scalar to convert a scalar Node into a Python floating-point number.
+        """
+        v = nn.as_scalar(self.run(x))
+
+        return 1 if v >= 0 else -1
+
+    def train(self, dataset: backend.Dataset):
         """
         Train the perceptron until convergence.
         """
         "*** YOUR CODE HERE ***"
+
+        """
+        Question 1 (6 points): Perceptron
+        
+        Notes:
+            Similar to a Keras Sequential model using:
+                
+                # New model
+                model = tf.keras.models.Sequential()
+                
+                # Add 1 layer with 1 node
+                model.add(layers.Dense(1, input_dim=INPUT_DIMENSION, activation="relu"))
+                
+                # Classification model using Stochastic Gradient Descent as the optimizer
+                model.compile(loss='binary_crossentropy', optimizer='SGD', metrics=['accuracy'])
+                
+                # Train the model
+                model.fit(
+                    x=x,
+                    y=y,
+                    batch_size=BATCH_SIZE,  # Should be 1
+                    epochs=EPOCHS,  # Should be 10000
+                    # verbose="auto",
+                    callbacks=[tf.keras.callbacks.EarlyStopping(monitor='loss')],
+                )
+                
+        Result:
+            Question q1
+            ===========
+            *** q1) check_perceptron
+            Sanity checking perceptron...
+            Sanity checking perceptron weight updates...
+            Sanity checking complete. Now training perceptron
+            *** PASS: check_perceptron
+            
+            ### Question q1: 6/6 ###
+            
+            Finished at 20:17:52
+            
+            Provisional grades
+            ==================
+            Question q1: 6/6
+            ------------------
+            Total: 6/6
+        """
+
+        """
+        Write the train(self) method. This should repeatedly loop over the data set and make updates on examples 
+        that are misclassified. Use the update method of the nn.Parameter class to update the weights. When an 
+        entire pass over the data set is completed without making any mistakes, 100% training accuracy has 
+        been achieved, and training can terminate.
+        """
+        # print("#" * 100)
+        # print("train")
+
+        # ***** Hyper Parameters *****
+        EPOCHS = 100000  # There are always epochs
+        BATCH_SIZE = 1  # Stochastic gradiant descent because of batch size == 1
+
+        """
+        When an entire pass over the data set is completed without making any mistakes, 
+        100% training accuracy has been achieved, and training can terminate.
+        
+        Notes:
+            A simple "early stopping" implementation without the existence of a validation dataset to compare to 
+            which is why the variable is "pseudo' because we only have the training dataset.
+        """
+        early_stopping_pseudo = False
+
+        # This should repeatedly loop over the data set and make updates on examples that are misclassified.
+        for _ in range(EPOCHS):
+
+            """
+            When an entire pass over the data set is completed without making any mistakes, 
+            100% training accuracy has been achieved, and training can terminate.
+            """
+            if early_stopping_pseudo:
+                break
+
+            """
+            When an entire pass over the data set is completed without making any mistakes, 
+            100% training accuracy has been achieved, and training can terminate.
+            """
+            early_stopping_pseudo = True
+
+            # Loop over entire dataset
+            for x, y in dataset.iterate_once(BATCH_SIZE):
+
+                x_prediction = self.get_prediction(x)
+                y_true = nn.as_scalar(y)
+
+                # x_dot_product = nn.as_scalar(self.run(x))
+
+                # Train only when prediction is wrong
+                if x_prediction != y_true:
+                    # print("{:<20}{:<5}{:<5}".format(x_dot_product, x_prediction, y_true))
+
+                    """
+                    When an entire pass over the data set is completed without making any mistakes, 
+                    100% training accuracy has been achieved, and training can terminate.
+                    """
+                    early_stopping_pseudo = False
+
+                    """
+                    Use the update method of the nn.Parameter class to update the weights. 
+                    
+                    Notes:
+                        self.w.update(direction, multiplier)    
+                            direction is a Node 
+                            multiplier is a python scalar
+                    """
+                    self.w.update(x, y_true)
+
 
 class RegressionModel(object):
     """
@@ -48,6 +184,7 @@ class RegressionModel(object):
     numbers to real numbers. The network should be sufficiently large to be able
     to approximate sin(x) on the interval [-2pi, 2pi] to reasonable precision.
     """
+
     def __init__(self):
         # Initialize your model parameters here
         "*** YOUR CODE HERE ***"
@@ -81,6 +218,7 @@ class RegressionModel(object):
         """
         "*** YOUR CODE HERE ***"
 
+
 class DigitClassificationModel(object):
     """
     A model for handwritten digit classification using the MNIST dataset.
@@ -95,6 +233,7 @@ class DigitClassificationModel(object):
     methods here. We recommend that you implement the RegressionModel before
     working on this part of the project.)
     """
+
     def __init__(self):
         # Initialize your model parameters here
         "*** YOUR CODE HERE ***"
@@ -136,6 +275,7 @@ class DigitClassificationModel(object):
         """
         "*** YOUR CODE HERE ***"
 
+
 class LanguageIDModel(object):
     """
     A model for language identification at a single-word granularity.
@@ -144,6 +284,7 @@ class LanguageIDModel(object):
     methods here. We recommend that you implement the RegressionModel before
     working on this part of the project.)
     """
+
     def __init__(self):
         # Our dataset contains words from five different languages, and the
         # combined alphabets of the five languages contain a total of 47 unique
