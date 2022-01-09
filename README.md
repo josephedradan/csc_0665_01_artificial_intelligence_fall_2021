@@ -1,6 +1,6 @@
 # csc_0665-01_artificial_intelligence_fall_2021 Solutions
 
-My solutions for this class. All problems are solved correctly and will give you max points.
+### My solutions for this class. All problems are solved correctly and will give you max points.
 
 #### To run all assignments at the same time (Windows only. Uses command "py -3.6")
     python .\autorun_assignments.py
