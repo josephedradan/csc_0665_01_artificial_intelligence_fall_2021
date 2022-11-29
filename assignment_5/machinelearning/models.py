@@ -316,8 +316,8 @@ class RegressionModel(object):
             Basically Reduce learning rate when the new loss (val loss) is far from the previous loss (val loss) 
 
             This is similar to Keras's ReduceLROnPlateau callback function, but
-            it reduces the learning rate when the ratio between the old loss over the new loss abs zeroed is greater 
-            than self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed
+            it reduces the learning rate when the ratio between the old loss over the new loss abs value is greater 
+            than self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value
         
         IMPORTANT NOTES:
             THIS METHOD IS UNRELIABLE FOR VERY SMALL self.early_stopping_threshold SUCH AS
@@ -334,14 +334,14 @@ class RegressionModel(object):
         self._loss_val_previous = None
 
         # If the ratio of the new loss over the old loss is less than 1 then reduce the learning rate
-        self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed = self.early_stopping_threshold * 2
+        self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value = self.early_stopping_threshold * 2
 
         """
         Because we reduced the learning rate, we must also adjust the threshold that led to that change
         in learning rate because the new learning rate will make us reach the threshold again very quickly
         which will then make the learning rate really small and the model training will take forever... 
         """
-        self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed_ratio = self.reduce_learning_rate_multiple * 0.01
+        self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value_ratio = self.reduce_learning_rate_multiple * 0.01
 
         ####################
         """
@@ -551,26 +551,26 @@ class RegressionModel(object):
     
             Notes:
                 This is similar to Keras's ReduceLROnPlateau callback function, but
-                it reduces the learning rate when the ratio between the old loss over the new loss abs zeroed is less 
-                than self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed
+                it reduces the learning rate when the ratio between the old loss over the new loss abs value is less 
+                than self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value
             """
             loss_val_new = abs(loss_val_pseudo)
 
             if self._loss_val_previous is not None:
 
                 # Ratio between val loss and early stopping threshold (EST)
-                ratio_val_loss_new_over_old_abs_zeroed = abs(1 - (loss_val_new / self._loss_val_previous))
+                ratio_val_loss_new_over_old_abs_value = abs(1 - (loss_val_new / self._loss_val_previous))
 
-                # print(ratio_val_loss_new_over_old_abs_zeroed)
+                # print(ratio_val_loss_new_over_old_abs_value)
 
                 """
                 If the amount of times already reduced is > 0 and
-                If the ratio between the old loss over the new loss abs zeroed is less than 
-                self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed then reduce the learning rate 
+                If the ratio between the old loss over the new loss abs value is less than 
+                self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value then reduce the learning rate 
                 """
                 if (self.reduce_learning_rate_amount_of_reductions > 0 and (
-                        ratio_val_loss_new_over_old_abs_zeroed < self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed)):
-                    # print(self.learning_rate, self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed)
+                        ratio_val_loss_new_over_old_abs_value < self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value)):
+                    # print(self.learning_rate, self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value)
 
                     _learning_rate_old = self.learning_rate
 
@@ -578,13 +578,13 @@ class RegressionModel(object):
                     self.learning_rate *= self.reduce_learning_rate_multiple
 
                     # Reduce the threshold even more
-                    self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed *= self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed_ratio
+                    self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value *= self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value_ratio
 
                     # Reduce the amount of time to reduce the learning rate
                     self.reduce_learning_rate_amount_of_reductions -= 1
 
                     print("Reducing learning rate from {} to {}".format(_learning_rate_old, self.learning_rate))
-                    # print(self.learning_rate, self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed)
+                    # print(self.learning_rate, self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value)
 
             self._loss_val_previous = loss_val_new
 
@@ -768,8 +768,8 @@ class DigitClassificationModel(object):
             Basically Reduce learning rate when the new loss (val loss) is far from the previous loss (val loss) 
 
             This is similar to Keras's ReduceLROnPlateau callback function, but
-            it reduces the learning rate when the ratio between the old loss over the new loss abs zeroed is greater 
-            than self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed
+            it reduces the learning rate when the ratio between the old loss over the new loss abs value is greater 
+            than self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value
 
         IMPORTANT NOTES:
             THIS METHOD IS UNRELIABLE FOR VERY SMALL self.early_stopping_threshold SUCH AS
@@ -786,14 +786,14 @@ class DigitClassificationModel(object):
         self._loss_val_previous = None
 
         # If the ratio of the new loss over the old loss is less than 1 then reduce the learning rate
-        self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed = self.early_stopping_threshold * 2
+        self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value = self.early_stopping_threshold * 2
 
         """
         Because we reduced the learning rate, we must also adjust the threshold that led to that change
         in learning rate because the new learning rate will make us reach the threshold again very quickly
         which will then make the learning rate really small and the model training will take forever... 
         """
-        self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed_ratio = self.reduce_learning_rate_multiple * 0.01
+        self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value_ratio = self.reduce_learning_rate_multiple * 0.01
 
         ####################
 
@@ -1037,26 +1037,26 @@ class DigitClassificationModel(object):
 
             Notes:
                 This is similar to Keras's ReduceLROnPlateau callback function, but
-                it reduces the learning rate when the ratio between the old loss over the new loss abs zeroed is less 
-                than self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed
+                it reduces the learning rate when the ratio between the old loss over the new loss abs value is less 
+                than self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value
             """
             loss_val_new = abs(loss_val_pseudo)
 
             if self._loss_val_previous is not None:
 
                 # Ratio between val loss and early stopping threshold (EST)
-                ratio_val_loss_new_over_old_abs_zeroed = abs(1 - (loss_val_new / self._loss_val_previous))
+                ratio_val_loss_new_over_old_abs_value = abs(1 - (loss_val_new / self._loss_val_previous))
 
-                # print(ratio_val_loss_new_over_old_abs_zeroed)
+                # print(ratio_val_loss_new_over_old_abs_value)
 
                 """
                 If the amount of times already reduced is > 0 and
-                If the ratio between the old loss over the new loss abs zeroed is less than 
-                self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed then reduce the learning rate 
+                If the ratio between the old loss over the new loss abs value is less than 
+                self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value then reduce the learning rate 
                 """
                 if (self.reduce_learning_rate_amount_of_reductions > 0 and (
-                        ratio_val_loss_new_over_old_abs_zeroed < self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed)):
-                    # print(self.learning_rate, self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed)
+                        ratio_val_loss_new_over_old_abs_value < self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value)):
+                    # print(self.learning_rate, self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value)
 
                     _learning_rate_old = self.learning_rate
 
@@ -1064,13 +1064,13 @@ class DigitClassificationModel(object):
                     self.learning_rate *= self.reduce_learning_rate_multiple
 
                     # Reduce the threshold even more
-                    self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed *= self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed_ratio
+                    self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value *= self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value_ratio
 
                     # Reduce the amount of time to reduce the learning rate
                     self.reduce_learning_rate_amount_of_reductions -= 1
 
                     print("Reducing learning rate from {} to {}".format(_learning_rate_old, self.learning_rate))
-                    # print(self.learning_rate, self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_zeroed)
+                    # print(self.learning_rate, self.reduce_learning_rate_threshold_loss_new_over_loss_old_abs_value)
 
             self._loss_val_previous = loss_val_new
 
